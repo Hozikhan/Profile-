@@ -1,0 +1,6 @@
+{
+  "name": "Huzaifa Hussain - Computer Engineering Portfolio",
+  "description": "Futuristic cyber-tech personal portfolio for Huzaifa Hussain, first-year Computer Engineering student from Madhubani, Bihar, India. Features interactive Three.js 3D photo-cube, scroll-driven shrinking photo effect, projects, skills, and HUD interface.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
