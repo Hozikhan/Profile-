@@ -84,3 +84,119 @@ export function formatCoordinates(lat: number, lng: number): string {
   const lngDir = lng >= 0 ? 'E' : 'W';
   return `${Math.abs(lat).toFixed(2)}° ${latDir}, ${Math.abs(lng).toFixed(2)}° ${lngDir}`;
 }
+
+export type LogicGateType = 'AND' | 'OR' | 'XOR' | 'NAND' | 'NOR' | 'NOT';
+
+/**
+ * Simulates digital logic gates for 1st Year Diploma CE Digital Techniques
+ */
+export function evaluateLogicGate(gate: LogicGateType, inA: boolean, inB: boolean): boolean {
+  switch (gate) {
+    case 'AND':
+      return inA && inB;
+    case 'OR':
+      return inA || inB;
+    case 'XOR':
+      return inA !== inB;
+    case 'NAND':
+      return !(inA && inB);
+    case 'NOR':
+      return !(inA || inB);
+    case 'NOT':
+      return !inA;
+    default:
+      return false;
+  }
+}
+
+export interface BugChallenge {
+  id: string;
+  title: string;
+  language: 'C' | 'Python' | 'Web';
+  code: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  points: number;
+}
+
+export const BUG_CHALLENGES: BugChallenge[] = [
+  {
+    id: 'c-pointer',
+    title: 'The Uninitialized Pointer Trap (C99)',
+    language: 'C',
+    code: 'int *ptr;\n*ptr = 42;\nprintf("%d", *ptr);',
+    options: [
+      'Allocate memory with malloc or point to a valid address before dereferencing',
+      'Change *ptr to &ptr on line 2',
+      'Initialize ptr with float',
+      'Replace printf with puts',
+    ],
+    correctIndex: 0,
+    explanation: 'Dereferencing an uninitialized pointer causes undefined behavior (Segmentation Fault). Allocate memory with malloc or point to a valid variable address first.',
+    points: 100,
+  },
+  {
+    id: 'py-loop',
+    title: 'Mutable Default Argument (Python 3)',
+    language: 'Python',
+    code: 'def add_item(item, basket=[]):\n    basket.append(item)\n    return basket',
+    options: [
+      'Change basket=[] to basket=None and create a new list inside',
+      'Replace .append with .insert(0)',
+      'Make basket a tuple instead of list',
+      'Use global basket variable',
+    ],
+    correctIndex: 0,
+    explanation: 'Default arguments in Python are evaluated once at function definition. Using a mutable default list shares state across multiple calls. Use basket=None instead.',
+    points: 100,
+  },
+  {
+    id: 'c-loop',
+    title: 'Array Index Out-of-Bounds (C99)',
+    language: 'C',
+    code: 'int arr[5] = {1, 2, 3, 4, 5};\nfor (int i = 0; i <= 5; i++) {\n    printf("%d ", arr[i]);\n}',
+    options: [
+      'Change loop condition to i < 5',
+      'Change int arr[5] to int arr[4]',
+      'Change i++ to i += 2',
+      'Initialize i at -1',
+    ],
+    correctIndex: 0,
+    explanation: 'An array of size 5 has valid indices 0 through 4. Loop condition i <= 5 reads arr[5], which is out of bounds and accesses memory past the buffer.',
+    points: 100,
+  },
+  {
+    id: 'web-dom',
+    title: 'Asynchronous State Stale Closure (React)',
+    language: 'Web',
+    code: 'const [count, setCount] = useState(0);\nconst incrementTwice = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n};',
+    options: [
+      'Use functional updater: setCount(prev => prev + 1)',
+      'Call setCount synchronously three times',
+      'Replace useState with a global variable',
+      'Wrap both setCount calls in try/catch',
+    ],
+    correctIndex: 0,
+    explanation: 'State setters in React batch updates. Passing count + 1 twice uses the same captured value. Passing an updater callback `prev => prev + 1` ensures accurate consecutive increments.',
+    points: 100,
+  },
+];
+
+export function checkBugFix(challengeId: string, selectedChoiceIndex: number): {
+  isCorrect: boolean;
+  explanation: string;
+  points: number;
+} {
+  const challenge = BUG_CHALLENGES.find((c) => c.id === challengeId);
+  if (!challenge) {
+    return { isCorrect: false, explanation: 'Challenge not found', points: 0 };
+  }
+  const isCorrect = challenge.correctIndex === selectedChoiceIndex;
+  return {
+    isCorrect,
+    explanation: challenge.explanation,
+    points: isCorrect ? challenge.points : 0,
+  };
+}
+

@@ -96,19 +96,19 @@
   box-shadow: 7px 7px 0px #fb923c;
 }
 
-/* 5-Second Background Image Breathing Animation with gentle contrast (not too light) */
+/* 5-Second Background Image Breathing Animation with low density (subtle watermark, never too bright) */
 @keyframes bgPulse5s {
   0% {
     transform: scale(1.02);
-    filter: brightness(0.12) contrast(1.15) grayscale(100%);
+    filter: brightness(0.10) contrast(1.10) grayscale(100%);
   }
   50% {
-    transform: scale(1.06);
-    filter: brightness(0.22) contrast(1.22) grayscale(100%);
+    transform: scale(1.05);
+    filter: brightness(0.18) contrast(1.15) grayscale(100%);
   }
   100% {
     transform: scale(1.02);
-    filter: brightness(0.12) contrast(1.15) grayscale(100%);
+    filter: brightness(0.10) contrast(1.10) grayscale(100%);
   }
 }
 
@@ -202,6 +202,77 @@
 
 .animate-float-wobble {
   animation: floatWobble 4s ease-in-out infinite;
+}
+
+/* Gentle drifting keyframes for floating cartoon stickers/emojis */
+@keyframes driftSlow1 {
+  0%, 100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  25% {
+    transform: translate(16px, -22px) rotate(6deg);
+  }
+  50% {
+    transform: translate(-14px, -36px) rotate(-4deg);
+  }
+  75% {
+    transform: translate(-24px, -12px) rotate(5deg);
+  }
+}
+
+@keyframes driftSlow2 {
+  0%, 100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  25% {
+    transform: translate(-18px, 20px) rotate(-8deg);
+  }
+  50% {
+    transform: translate(22px, 32px) rotate(4deg);
+  }
+  75% {
+    transform: translate(14px, 12px) rotate(-5deg);
+  }
+}
+
+@keyframes driftSlow3 {
+  0%, 100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  33% {
+    transform: translate(25px, -18px) rotate(7deg);
+  }
+  66% {
+    transform: translate(-20px, 24px) rotate(-6deg);
+  }
+}
+
+@keyframes driftSlow4 {
+  0%, 100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  30% {
+    transform: translate(-22px, -20px) rotate(-7deg);
+  }
+  70% {
+    transform: translate(18px, 16px) rotate(8deg);
+  }
+}
+
+.animate-drift-slow-1 {
+  animation: driftSlow1 18s ease-in-out infinite;
+}
+
+.animate-drift-slow-2 {
+  animation: driftSlow2 22s ease-in-out infinite;
+}
+
+.animate-drift-slow-3 {
+  animation: driftSlow3 26s ease-in-out infinite;
+}
+
+.animate-drift-slow-4 {
+  animation: driftSlow4 20s ease-in-out infinite;
 }
 
 /* Comic Halftone Dot Pattern */

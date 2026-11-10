@@ -5,9 +5,15 @@ import { ExternalLink, Github, CheckCircle2, Eye, Sparkles } from 'lucide-react'
 
 interface ProjectsSectionProps {
   playBlip: () => void;
+  onOpenShowcaseLab?: () => void;
+  onOpenEngineeringStation?: () => void;
 }
 
-export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ playBlip }) => {
+export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
+  playBlip,
+  onOpenShowcaseLab,
+  onOpenEngineeringStation,
+}) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const projects = PORTFOLIO_DATA.projects;
 
@@ -140,6 +146,46 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ playBlip }) =>
               </CyberTiltCard>
             );
           })}
+        </div>
+
+        {/* Comic Callout Banner linking to Page 2 & Page 3 */}
+        <div className="mt-12 p-6 rounded-3xl bg-[#121217] border-2 border-white comic-shadow-cyan flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-2 font-comic text-xs font-bold text-[#facc15]">
+              <Sparkles className="w-4 h-4 text-[#facc15]" />
+              <span>EXPLORE ALL INTERCONNECTED PAGES</span>
+            </div>
+            <div className="font-comic text-lg sm:text-xl font-extrabold text-white">
+              C/Python Terminal, Seminar Slides &amp; Dev Arcade!
+            </div>
+            <p className="font-sans text-xs text-zinc-300">
+              Test sorting algorithms live in Page 2, or simulate digital logic gates and bug hunting in Page 3.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => {
+                playBlip();
+                if (onOpenShowcaseLab) onOpenShowcaseLab();
+              }}
+              className="px-4 py-2.5 rounded-2xl bg-[#38bdf8] text-black font-comic font-extrabold text-xs border-2 border-black comic-shadow-cyan hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+            >
+              PAGE 2: LAB 🧪
+            </button>
+            {onOpenEngineeringStation && (
+              <button
+                type="button"
+                onClick={() => {
+                  playBlip();
+                  onOpenEngineeringStation();
+                }}
+                className="px-4 py-2.5 rounded-2xl bg-[#4ade80] text-black font-comic font-extrabold text-xs border-2 border-black shadow-[2px_2px_0px_#ffffff] hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+              >
+                PAGE 3: ARCADE 🕹️
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Project Detail Modal */}

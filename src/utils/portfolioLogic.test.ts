@@ -4,6 +4,8 @@ import {
   validateContactForm,
   calculateScrollShrink,
   formatCoordinates,
+  evaluateLogicGate,
+  checkBugFix,
 } from './portfolioLogic';
 
 test('validateContactForm checks empty fields and formats', () => {
@@ -58,3 +60,42 @@ test('formatCoordinates returns formatted latitude and longitude string', () => 
   const coordsSouthWest = formatCoordinates(-12.45, -45.67);
   assert.equal(coordsSouthWest, '12.45° S, 45.67° W');
 });
+
+test('evaluateLogicGate accurately simulates digital logic gates', () => {
+  // AND gate
+  assert.equal(evaluateLogicGate('AND', true, true), true);
+  assert.equal(evaluateLogicGate('AND', true, false), false);
+  assert.equal(evaluateLogicGate('AND', false, false), false);
+
+  // OR gate
+  assert.equal(evaluateLogicGate('OR', true, false), true);
+  assert.equal(evaluateLogicGate('OR', false, false), false);
+
+  // XOR gate
+  assert.equal(evaluateLogicGate('XOR', true, true), false);
+  assert.equal(evaluateLogicGate('XOR', true, false), true);
+  assert.equal(evaluateLogicGate('XOR', false, false), false);
+
+  // NAND gate
+  assert.equal(evaluateLogicGate('NAND', true, true), false);
+  assert.equal(evaluateLogicGate('NAND', true, false), true);
+
+  // NOT gate (inA inverted)
+  assert.equal(evaluateLogicGate('NOT', true, false), false);
+  assert.equal(evaluateLogicGate('NOT', false, false), true);
+});
+
+test('checkBugFix correctly validates multiple-choice bug solutions and awards points', () => {
+  const pointerCorrect = checkBugFix('c-pointer', 0);
+  assert.equal(pointerCorrect.isCorrect, true);
+  assert.equal(pointerCorrect.points, 100);
+
+  const pointerIncorrect = checkBugFix('c-pointer', 1);
+  assert.equal(pointerIncorrect.isCorrect, false);
+  assert.equal(pointerIncorrect.points, 0);
+
+  const unknown = checkBugFix('non-existent-id', 0);
+  assert.equal(unknown.isCorrect, false);
+  assert.equal(unknown.points, 0);
+});
+

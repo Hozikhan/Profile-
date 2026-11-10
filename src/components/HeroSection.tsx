@@ -7,12 +7,16 @@ interface HeroSectionProps {
   onNavigate: (sectionId: string) => void;
   scrollY: number;
   playBlip: () => void;
+  onOpenShowcaseLab?: () => void;
+  onOpenEngineeringStation?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigate,
   scrollY,
   playBlip,
+  onOpenShowcaseLab,
+  onOpenEngineeringStation,
 }) => {
   const profile = PORTFOLIO_DATA.profile;
 
@@ -55,16 +59,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       id="hero"
       className="relative min-h-screen w-full flex flex-col justify-center pt-28 pb-16 overflow-hidden comic-dots-bg"
     >
-      {/* Background Image with Controlled 5-Second Dimmer Breathing Animation */}
+      {/* Background Image with Controlled Low-Density / Low-Brightness 5-Second Breathing Animation */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <img
           src={profile.heroBgImage}
           alt="Huzaifa Hussain Background"
-          className="w-full h-full object-cover object-center animate-bg-pulse-5s transition-all duration-700"
+          className="w-full h-full object-cover object-center animate-bg-pulse-5s transition-all duration-700 opacity-15"
         />
-        {/* Deep, Rich Contrast Overlays (Not too light) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/95 via-[#080808]/88 to-[#080808]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.6),transparent_85%)]" />
+        {/* Deep, Rich Contrast Low-Density Overlays (Not overpowering, crystal clear text) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/95 via-[#080808]/90 to-[#080808]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.7),transparent_85%)]" />
       </div>
 
       {/* Looping Infinite Marquee Ticker at the top of Hero */}
@@ -104,9 +108,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* Main Content Container */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-4 flex-1 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full">
           {/* Left Column: Comic Typography with Looping Animations & Pop Colors */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="lg:col-span-6 space-y-6 text-left">
             {/* Playful Yellow Speech Bubble with subtle looping wobble */}
             <div className="inline-block relative">
               <div className="bg-[#fef08a] text-black font-hand text-base sm:text-lg font-bold px-4 py-1.5 rounded-2xl border-2 border-black shadow-[3px_3px_0px_#facc15] animate-text-wiggle flex items-center gap-2">
@@ -162,14 +166,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Cartoon CTA Buttons with Colorful Shadows */}
-            <div className="flex flex-wrap items-center gap-4 pt-3">
+            <div className="flex flex-wrap items-center gap-3 pt-3">
+              <button
+                type="button"
+                onClick={() => {
+                  playBlip();
+                  if (onOpenShowcaseLab) {
+                    onOpenShowcaseLab();
+                  } else {
+                    onNavigate('projects');
+                  }
+                }}
+                className="group relative inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-[#38bdf8] text-black font-comic font-extrabold text-xs sm:text-sm tracking-wide border-2 border-black comic-shadow-cyan comic-shadow-hover-cyan cursor-pointer"
+              >
+                <span>PAGE 2: LAB 🧪</span>
+              </button>
+
+              {onOpenEngineeringStation && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    playBlip();
+                    onOpenEngineeringStation();
+                  }}
+                  className="group relative inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-[#4ade80] text-black font-comic font-extrabold text-xs sm:text-sm tracking-wide border-2 border-black shadow-[3px_3px_0px_#ffffff] hover:translate-y-[-2px] transition-transform cursor-pointer"
+                >
+                  <span>PAGE 3: ARCADE 🕹️</span>
+                  <span className="px-1.5 py-0.2 rounded-full bg-[#facc15] text-black text-[9px] font-black border border-black animate-pulse">
+                    NEW
+                  </span>
+                </button>
+              )}
+
               <button
                 type="button"
                 onClick={() => {
                   playBlip();
                   onNavigate('projects');
                 }}
-                className="group relative inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#facc15] text-black font-comic font-bold text-sm tracking-wide border-2 border-black comic-shadow-yellow comic-shadow-hover-yellow cursor-pointer"
+                className="group relative inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-[#facc15] text-black font-comic font-bold text-sm tracking-wide border-2 border-black comic-shadow-yellow comic-shadow-hover-yellow cursor-pointer"
               >
                 <span>EXPLORE PROJECTS 🚀</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -181,20 +216,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   playBlip();
                   onNavigate('contact');
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#18181b] border-2 border-[#38bdf8] text-[#38bdf8] font-comic font-bold text-sm tracking-wide comic-shadow-cyan comic-shadow-hover-cyan cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-[#18181b] border-2 border-white text-white font-comic font-bold text-sm tracking-wide comic-shadow-sm comic-shadow-hover cursor-pointer"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 text-[#facc15]" />
                 <span>GET IN TOUCH 💬</span>
               </button>
-
-              <a
-                href="#about"
-                onClick={() => playBlip()}
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl text-zinc-300 font-comic text-xs tracking-wider uppercase hover:text-[#4ade80] transition-colors"
-              >
-                <Download className="w-4 h-4" />
-                <span>MY STORY ✦</span>
-              </a>
             </div>
 
             {/* Quick Cartoon Stat Boxes with Color Accents */}
@@ -225,10 +251,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Cartoon 3D Toy Box Frame with Touch To Spin */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center relative min-h-[380px] lg:min-h-[460px]">
-            {/* Comic Frame Card containing the 3D Canvas */}
-            <div className="w-full max-w-md aspect-square relative rounded-3xl border-[3.5px] border-white bg-[#121212] p-4 flex flex-col justify-between comic-shadow-yellow overflow-hidden">
+          {/* Right Column: Cartoon 3D Toy Box Frame with Increased Size and 360 Slide Rotation */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center relative min-h-[440px] lg:min-h-[540px]">
+            {/* Comic Frame Card containing the 3D Canvas with Increased Size */}
+            <div className="w-full max-w-lg lg:max-w-xl aspect-square relative rounded-3xl border-[4px] border-white bg-[#121212] p-3 sm:p-4 flex flex-col justify-between comic-shadow-yellow overflow-hidden">
               {/* Comic Top Bar */}
               <div className="flex justify-between items-center font-comic text-xs font-bold text-white z-20 pointer-events-none pb-2 border-b-2 border-zinc-800">
                 <span className="flex items-center gap-1.5 text-[#facc15]">
@@ -264,7 +290,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {/* Instruction badge below */}
             <div className="mt-4 text-center">
               <span className="inline-block bg-[#161616] text-[#facc15] font-hand text-sm px-4 py-1.5 rounded-full border-2 border-[#facc15] comic-shadow-sm animate-text-bounce">
-                ✨ Tap or swipe the 3D photo box to spin it fast!
+                ✨ Slide &amp; drag anywhere across the box to rotate 360° or tap to spin!
               </span>
             </div>
           </div>
